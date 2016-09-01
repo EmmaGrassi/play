@@ -1,0 +1,39 @@
+{
+  "name": "Quiz",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "date": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "questions": {
+      "type": "hasMany",
+      "model": "Question",
+      "foreignKey": ""
+    },
+    "event": {
+      "type": "belongsTo",
+      "model": "Event",
+      "foreignKey": ""
+    },
+    "subjects": {
+      "type": "hasOne",
+      "model": "Subject",
+      "foreignKey": ""
+    },
+    "subject": {
+      "type": "belongsTo",
+      "model": "Subject",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
