@@ -6,6 +6,9 @@
     "start": "node .",
     "test": "./node_modules/.bin/mocha"
   },
+  "engines": {
+    "node": "6"
+  },
   "dependencies": {
     "compression": "^1.0.3",
     "cors": "^2.5.2",
