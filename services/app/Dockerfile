@@ -1,31 +1,21 @@
-# Use exathe latest nodejs version.
 FROM node:6.2
 
-# Expose the port.
 EXPOSE 3000
-
-# Webpack dev server
 EXPOSE 8080
-
-# Debugging port.
-# TODO: Disable in production.
 #EXPOSE 5858
 
-# Set environment variables.
-ENV PORT=3000
-ENV LOGLEVEL=debug
+ENV DOCKERIZE_VERSION v0.2.0
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-# Create the application directory in the dock.
+ADD package.json /tmp
+WORKDIR /tmp
+RUN npm install
+RUN rm /tmp/package.json
+
 RUN mkdir -p /service
-
-# Add all the files to the container.
+RUN mv /tmp/node_modules /service
 ADD . /service
 
-# Change the working directory.
 WORKDIR /service
-
-# Install all the dependencies.
-RUN npm install
-
-# Run the app.
-CMD node .
+CMD dockerize -wait tcp://db:27017 npm start

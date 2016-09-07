@@ -4,10 +4,10 @@ services:
   db:
     image: "mongo"
     hostname: "db"
-    volumes:
-      - "../../volumes/mongodb:/data/db"
     ports:
       - "27017:27017"
+    volumes:
+      - "../../volumes/mongodb:/data/db"
 
   app:
     depends_on:
@@ -15,7 +15,11 @@ services:
     build: "./services/app"
     ports:
       - "3000:3000"
-      #- "8080:8080"
+      - "8080:8080"
+      #- "5858:5858"
+    environment:
+      - "PORT=3000"
+      - "LOGLEVEL=debug"
     volumes:
       - "./services/app:/service"
       - "/service/node_modules"
