@@ -33,7 +33,6 @@
     "dataSource": "mongodb",
     "public": false
   },
-
   "user": {
     "dataSource": "mongodb",
     "public": true
