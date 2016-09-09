@@ -24,7 +24,8 @@
     },
     "startTime": {
       "type": "date",
-      "required": true
+      "required": true,
+      "default": "$now"
     },
     "endTime": {
       "type": "date"
