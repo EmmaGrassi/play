@@ -1,11 +1,30 @@
 import angular from 'angular'
-import detailsFormComponent from './details-form.component'
+import angularMessages from 'angular-messages'
 
-const MODULE_NAME = 'detailsForm'
+import detailsFormController from './details-form.controller'
+import { quizzesServiceName } from '../quizzes'
+
+
+const MODULE_NAME = 'detailsFormModule'
+const componentName = 'detailsForm'
+const controllerName = `${MODULE_NAME}:controller`
 
 export default angular
-  .module(MODULE_NAME, [])
+  .module(MODULE_NAME, [
+    angularMessages
+  ])
 
-  .component(MODULE_NAME, detailsFormComponent)
+  .controller(controllerName, [
+    quizzesServiceName,
+    detailsFormController
+  ])
+
+  .component(componentName, {
+    bindings: {
+      onSave: '&'
+    },
+    template: require('./details-form.component.html'),
+    controller: controllerName
+  })
 
   .name

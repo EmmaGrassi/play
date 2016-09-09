@@ -55,6 +55,13 @@ a:hover {
   text-decoration: underline;
 }
 
+.lang-chooser img {
+  max-width: 50px;
+}
+.lang-chooser > div {
+  padding-top: 10px;
+}
+
 .quiz-question {
   font-size: 1.3em;
   display: block;
@@ -134,10 +141,6 @@ p.user-unselected {
 }
 
 @media only screen and (min-width: 480px) {
-
-  body {
-    font-size: 11px;
-  }
 
   .row { text-align: left; }
 

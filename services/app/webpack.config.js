@@ -34,14 +34,14 @@ const config = {
       }
     ]
   },
-  devtool: 'source-map',
+  devtool: '#source-map',
   plugins: [
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
     new webpack.optimize.UglifyJsPlugin({
       minimize: true,
-      sourcemap: false,
+      sourcemap: true,
       mangle: true
     }),
     new HtmlWebpackPlugin({
@@ -51,7 +51,6 @@ const config = {
       { from: path.resolve(__dirname, 'client/images'), to: 'images' },
       { from: path.resolve(__dirname, 'client/styles'), to: 'styles' },
     ])
-
   ]
 };
 

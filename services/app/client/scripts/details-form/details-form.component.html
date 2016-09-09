@@ -1,0 +1,108 @@
+<div class="container-fluid details-form-component">
+  <div class="row">
+    <h2>Fill in your data</h2>
+
+    <form novalidate name="$ctrl.detailsForm" ng-submit="$ctrl.detailsForm.$valid && $ctrl.save()">
+
+      <div class="form-group"
+           ng-class="{ 'has-error': $ctrl.detailsForm.$submitted && $ctrl.detailsForm.firstName.$invalid }">
+        <label class="control-label" for="form-firstName">First name</label>
+        <input type="text" id="form-firstName" placeholder="E.g. Thomas" class="form-control"
+               autofocus
+               autocomplete="off"
+               name="firstName"
+               required
+               ng-model="$ctrl.form.firstName">
+
+        <div class="error-message help-block" ng-messages="$ctrl.detailsForm.firstName.$error">
+          <div ng-message="required">Please enter first name.</div>
+        </div>
+      </div>
+
+      <div class="form-group"
+           ng-class="{ 'has-error': $ctrl.detailsForm.$submitted && $ctrl.detailsForm.lastName.$invalid }">
+        <label class="control-label" for="form-lastName">Last name</label>
+        <input type="text" id="form-lastName" placeholder="E.g. Mann" class="form-control"
+               autocomplete="off"
+               required
+               name="lastName"
+               ng-model="$ctrl.form.lastName">
+
+        <div class="error-message help-block" ng-messages="$ctrl.detailsForm.lastName.$error">
+          <div ng-message="required">Please enter last name.</div>
+        </div>
+      </div>
+
+      <div class="form-group"
+           ng-class="{ 'has-error': $ctrl.detailsForm.$submitted && $ctrl.detailsForm.email.$invalid }">
+        <label class="control-label" for="form-email">Email</label>
+        <input type="email" id="form-email" placeholder="thomas@sytac.io" class="form-control"
+               autocomplete="off"
+               required
+               name="email"
+               ng-model="$ctrl.form.email">
+
+        <div class="error-message help-block" ng-messages="$ctrl.detailsForm.email.$error">
+          <div ng-message="required,email">Please enter valid email address.</div>
+        </div>
+      </div>
+
+      <div class="form-group"
+           ng-class="{ 'has-error': $ctrl.detailsForm.$submitted && $ctrl.detailsForm.twitter.$invalid }">
+        <label class="control-label" for="form-twitter">Twitter (optional)</label>
+        <input type="text" id="form-twitter" placeholder="@sytac" class="form-control"
+               name="twitter"
+               ng-pattern="'@.+'"
+               ng-model="$ctrl.form.twitter">
+
+        <div class="error-message help-block" ng-messages="$ctrl.detailsForm.twitter.$error">
+          <div ng-message="pattern">Please enter valid twitter username.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label" for="form-tech">I love... (optional)</label>
+        <select class="form-control" id="form-tech" multiple="multiple" size="5"
+                ng-model="$ctrl.form.interests">
+          <option value="clj">Clojure</option>
+          <option value="Haskell">Haskell</option>
+          <option value="cljs">ClojureScript</option>
+          <option value="java">Good old Java</option>
+          <option value="scala">Scala</option>
+          <option value="js">Javascript</option>
+          <option value="react">ReactJS</option>
+          <option value="emacs">Emacs</option>
+          <option value="vim">Vim</option>
+          <option value="erlang">Erlang</option>
+          <option value="data-science">Data Science</option>
+        </select>
+      </div>
+
+      <div class="checkbox" ng-class="{ 'has-error': $ctrl.detailsForm.$submitted && $ctrl.detailsForm.tos.$invalid }">
+        <label>
+          <input type="checkbox"
+                 required
+                 name="tos"
+                 ng-model="$ctrl.tos"> Terms of service
+        </label>
+        <p>Sytac can contact me for business opportunities and promotional information</p>
+
+        <div class="error-message help-block" ng-messages="$ctrl.detailsForm.tos.$error">
+          <div ng-message="required">Please aggree to Terms of service before continuing.</div>
+        </div>
+      </div>
+
+      <div class="lang-chooser">
+        <h4>Choose your technology to start the quiz:</h4>
+        <div class="text-center">
+          <div class="btn-group" role="group">
+            <button ng-repeat="quiz in $ctrl.quizzes" class="btn btn-default"
+                    ng-click="$ctrl.form.quizId = quiz.id">
+              <img alt="{{ quiz.subject }}" ng-src="images/{{ quiz.subject }}-logo.png">
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

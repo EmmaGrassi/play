@@ -1,0 +1,11 @@
+.details-form-component {
+  .error-message {
+    display: none;
+  }
+
+  .ng-invalid.ng-submitted {
+    .error-message {
+      display: block;
+    }
+  }
+}

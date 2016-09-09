@@ -6,7 +6,7 @@
     "start": "npm run build-client && node .",
     "test": "./node_modules/.bin/mocha --recursive test",
     "build-client": "webpack --config webpack.config.js",
-    "build-client:watch": "npm run build-client --watch",
+    "build-client:watch": "npm run build-client -- --watch",
     "postinstall": "npm run build-client"
   },
   "engines": {
@@ -29,15 +29,20 @@
     "strong-error-handler": "^1.0.1"
   },
   "devDependencies": {
-    "mocha": "^3.0.2",
+    "angular-messages": "^1.5.8",
+    "angular-resource": "^1.5.8",
     "babel": "^6.5.2",
     "babel-preset-es2015": "^6.14.0",
     "copy-webpack-plugin": "^3.0.1",
+    "css-loader": "^0.25.0",
+    "eslint-config-loopback": "^4.0.0",
     "html-webpack-plugin": "^2.22.0",
     "json-loader": "^0.5.4",
+    "mocha": "^3.0.2",
     "node-sass": "^3.9.0",
     "raw-loader": "^0.5.1",
     "sass-loader": "^4.0.1",
+    "style-loader": "^0.13.1",
     "webpack": "^1.13.2"
   },
   "repository": {
