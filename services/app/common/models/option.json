@@ -6,14 +6,12 @@
     "validateUpsert": true
   },
   "properties": {
-    "name": {
+    "value": {
       "type": "string",
       "required": true
     },
-    "value": {
-      "type": [
-        "string"
-      ],
+    "correct": {
+      "type": "boolean",
       "required": true
     }
   },

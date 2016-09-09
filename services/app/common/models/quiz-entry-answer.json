@@ -1,21 +1,21 @@
 {
-  "name": "Answer",
+  "name": "QuizEntryAnswer",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
-  "properties": {
-    "title": {
-      "type": "string",
-      "required": true
-    }
-  },
+  "properties": {},
   "validations": [],
   "relations": {
-    "question": {
-      "type": "belongsTo",
+    "questions": {
+      "type": "hasOne",
       "model": "Question",
+      "foreignKey": ""
+    },
+    "options": {
+      "type": "hasOne",
+      "model": "Option",
       "foreignKey": ""
     }
   },

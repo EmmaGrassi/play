@@ -1,28 +1,39 @@
 {
-  "name": "Event",
+  "name": "QuizEntry",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "title": {
+    "firstName": {
       "type": "string",
       "required": true
     },
-    "startDate": {
+    "lastName": {
+      "type": "string",
+      "required": true
+    },
+    "twitter": {
+      "type": "string"
+    },
+    "interests": {
+      "type": [
+        "string"
+      ]
+    },
+    "startTime": {
       "type": "date",
       "required": true
     },
-    "endDate": {
-      "type": "date",
-      "required": true
+    "endTime": {
+      "type": "date"
     }
   },
   "validations": [],
   "relations": {
-    "quizzes": {
-      "type": "hasMany",
+    "quiz": {
+      "type": "belongsTo",
       "model": "Quiz",
       "foreignKey": ""
     }

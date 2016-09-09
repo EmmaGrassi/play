@@ -1,11 +1,10 @@
 'use strict';
 
-//const _ = require('lodash');
+const _ = require('lodash');
+const async = require('async');
 const log = require('loglevel');
 
 function createAdminUser(app, cb) {
-  log.debug('boot/dummyData/createAdminUser');
-
   const user = app.models.user;
 
   user.destroyAll(function(error){
@@ -27,8 +26,6 @@ function createAdminUser(app, cb) {
 }
 
 function createAdminRole(app, cb) {
-  log.debug('boot/dummyData/createAdminRole');
-
   const Role = app.models.Role;
 
   Role.destroyAll((error) => {
@@ -43,8 +40,6 @@ function createAdminRole(app, cb) {
 }
 
 function createAdminRolemapping(app, user, role, cb) {
-  log.debug('boot/dummyData/createAdminRolemapping');
-
   const RoleMapping = app.models.RoleMapping;
 
   RoleMapping.destroyAll((error) => {
@@ -61,8 +56,6 @@ function createAdminRolemapping(app, user, role, cb) {
 }
 
 function createAdminACL(app, user, role, rolemapping, cb) {
-  log.debug('boot/dummyData/createAdminACL');
-
   const ACL = app.models.ACL;
 
   ACL.destroyAll(function(error){
@@ -81,75 +74,655 @@ function createAdminACL(app, user, role, rolemapping, cb) {
   });
 }
 
-function createQuestions(app, quiz, cb) {
-  log.debug('boot/dummyData/createQuestions');
+function createQuizzes(app, cb) {
+  const { Quiz, Question, Option } = app.models;
 
-  const Question = app.models.Question;
-
-  Question.destroyAll((error) => {
+  // Remove all data.
+  async.series([
+    (cb) => Quiz.destroyAll(cb),
+    (cb) => Question.destroyAll(cb),
+    (cb) => Option.destroyAll(cb)
+  ], (error) => {
     if (error) {
       return cb(error);
     }
 
-    Question.create({
-      date: new Date()
-    }, cb);
-  });
-}
-
-function createQuiz(app, cb) {
-  log.debug('boot/dummyData/createQuiz');
-
-  const Quiz = app.models.Quiz;
-
-  Quiz.destroyAll((error) => {
-    if (error) {
-      return cb(error);
-    }
-
-    Quiz.create({
-      date: new Date()
-    }, cb);
-  });
-}
-
-module.exports = function(app, cb) {
-  log.debug('boot/dummyData');
-
-  createAdminUser(app, function(error, user){
-    if (error) {
-      return cb(error);
-    }
-
-    createAdminRole(app, function(error, role){
-      if (error) {
-        return cb(error);
-      }
-
-      createAdminRolemapping(app, user, role, function(error, rolemapping){
-        if (error) {
-          return cb(error);
-        }
-
-        createAdminACL(app, user, role, rolemapping, function(error, acl){
+    async.parallel([
+      (cb) => {
+        Quiz.create({
+          subject: 'scala'
+        }, (error, quiz) => {
           if (error) {
             return cb(error);
           }
 
-          cb();
-          //createQuiz(app, function(error, quiz) {
-          //  if (error) {
-          //    return cb(error);
-          //  }
+          async.parallel([
+            (cb) => {
+              Question.create({
+                quizId: quiz.id,
+                value: 'Which class is at the root of the Scala class hierarchy?',
+              }, (error, question) => {
+                if (error) {
+                  return cb(error);
+                }
 
-          //  createQuestions(app, quiz, function(error, questions) {
-          //    if (error) {
-          //      return cb(error);
-          //    }
+                Option.create([
+                  {
+                    questionId: question.id,
+                    value: 'scala.scalaObject',
+                    correct: true,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'scala.anyRef',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'scala.Object',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'scala.Any',
+                    correct: false,
+                  }
+                ], cb);
+              });
+            },
 
-          //    cb();
-          //  });
-          //});
+            (cb) => {
+              Question.create({
+                quizId: quiz.id,
+                value: 'What is the result of the following?',
+                code: 'Some Code'
+              }, (error, question) => {
+                if (error) {
+                  return cb(error);
+                }
+
+                Option.create([
+                  {
+                    questionId: question.id,
+                    value: '1',
+                    correct: true,
+                  },
+                  {
+                    questionId: question.id,
+                    value: '2',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: '3',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: '4',
+                    correct: false,
+                  }
+                ], cb);
+              });
+            },
+
+            (cb) => {
+              Question.create({
+                quizId: quiz.id,
+                value: 'ORLY',
+                code: 'YARLY'
+              }, (error, question) => {
+                if (error) {
+                  return cb(error);
+                }
+
+                Option.create([
+                  {
+                    questionId: question.id,
+                    value: 'A',
+                    correct: true,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'B',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'C',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'D',
+                    correct: false,
+                  }
+                ], cb);
+              });
+            }
+          ], (error) => {
+            if (error) {
+              return cb(error);
+            }
+
+            cb();
+          });
+        });
+      },
+
+      (cb) => {
+        Quiz.create({
+          subject: 'clojure'
+        }, (error, quiz) => {
+          if (error) {
+            return cb(error);
+          }
+
+          async.parallel([
+            (cb) => {
+              Question.create({
+                quizId: quiz.id,
+                value: 'Which class is at the root of the Scala class hierarchy?',
+              }, (error, question) => {
+                if (error) {
+                  return cb(error);
+                }
+
+                Option.create([
+                  {
+                    questionId: question.id,
+                    value: 'scala.scalaObject',
+                    correct: true,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'scala.anyRef',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'scala.Object',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'scala.Any',
+                    correct: false,
+                  }
+                ], cb);
+              });
+            },
+
+            (cb) => {
+              Question.create({
+                quizId: quiz.id,
+                value: 'What is the result of the following?',
+                code: 'Some Code'
+              }, (error, question) => {
+                if (error) {
+                  return cb(error);
+                }
+
+                Option.create([
+                  {
+                    questionId: question.id,
+                    value: '1',
+                    correct: true,
+                  },
+                  {
+                    questionId: question.id,
+                    value: '2',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: '3',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: '4',
+                    correct: false,
+                  }
+                ], cb);
+              });
+            },
+
+            (cb) => {
+              Question.create({
+                quizId: quiz.id,
+                value: 'ORLY',
+                code: 'YARLY'
+              }, (error, question) => {
+                if (error) {
+                  return cb(error);
+                }
+
+                Option.create([
+                  {
+                    questionId: question.id,
+                    value: 'A',
+                    correct: true,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'B',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'C',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'D',
+                    correct: false,
+                  }
+                ], cb);
+              });
+            }
+          ], (error) => {
+            if (error) {
+              return cb(error);
+            }
+
+            cb();
+          });
+        });
+      },
+
+      (cb) => {
+        Quiz.create({
+          subject: 'android'
+        }, (error, quiz) => {
+          if (error) {
+            return cb(error);
+          }
+
+          async.parallel([
+            (cb) => {
+              Question.create({
+                quizId: quiz.id,
+                value: 'Which class is at the root of the Scala class hierarchy?',
+              }, (error, question) => {
+                if (error) {
+                  return cb(error);
+                }
+
+                Option.create([
+                  {
+                    questionId: question.id,
+                    value: 'scala.scalaObject',
+                    correct: true,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'scala.anyRef',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'scala.Object',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'scala.Any',
+                    correct: false,
+                  }
+                ], cb);
+              });
+            },
+
+            (cb) => {
+              Question.create({
+                quizId: quiz.id,
+                value: 'What is the result of the following?',
+                code: 'Some Code'
+              }, (error, question) => {
+                if (error) {
+                  return cb(error);
+                }
+
+                Option.create([
+                  {
+                    questionId: question.id,
+                    value: '1',
+                    correct: true,
+                  },
+                  {
+                    questionId: question.id,
+                    value: '2',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: '3',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: '4',
+                    correct: false,
+                  }
+                ], cb);
+              });
+            },
+
+            (cb) => {
+              Question.create({
+                quizId: quiz.id,
+                value: 'ORLY',
+                code: 'YARLY'
+              }, (error, question) => {
+                if (error) {
+                  return cb(error);
+                }
+
+                Option.create([
+                  {
+                    questionId: question.id,
+                    value: 'A',
+                    correct: true,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'B',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'C',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'D',
+                    correct: false,
+                  }
+                ], cb);
+              });
+            }
+          ], (error) => {
+            if (error) {
+              return cb(error);
+            }
+
+            cb();
+          });
+        });
+      },
+
+      (cb) => {
+        Quiz.create({
+          subject: 'javascript'
+        }, (error, quiz) => {
+          if (error) {
+            return cb(error);
+          }
+
+          async.parallel([
+            (cb) => {
+              Question.create({
+                quizId: quiz.id,
+                value: 'Which class is at the root of the Scala class hierarchy?',
+              }, (error, question) => {
+                if (error) {
+                  return cb(error);
+                }
+
+                Option.create([
+                  {
+                    questionId: question.id,
+                    value: 'scala.scalaObject',
+                    correct: true,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'scala.anyRef',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'scala.Object',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'scala.Any',
+                    correct: false,
+                  }
+                ], cb);
+              });
+            },
+
+            (cb) => {
+              Question.create({
+                quizId: quiz.id,
+                value: 'What is the result of the following?',
+                code: 'Some Code'
+              }, (error, question) => {
+                if (error) {
+                  return cb(error);
+                }
+
+                Option.create([
+                  {
+                    questionId: question.id,
+                    value: '1',
+                    correct: true,
+                  },
+                  {
+                    questionId: question.id,
+                    value: '2',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: '3',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: '4',
+                    correct: false,
+                  }
+                ], cb);
+              });
+            },
+
+            (cb) => {
+              Question.create({
+                quizId: quiz.id,
+                value: 'ORLY',
+                code: 'YARLY'
+              }, (error, question) => {
+                if (error) {
+                  return cb(error);
+                }
+
+                Option.create([
+                  {
+                    questionId: question.id,
+                    value: 'A',
+                    correct: true,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'B',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'C',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'D',
+                    correct: false,
+                  }
+                ], cb);
+              });
+            }
+          ], (error) => {
+            if (error) {
+              return cb(error);
+            }
+
+            cb();
+          });
+        });
+      },
+
+      (cb) => {
+        Quiz.create({
+          subject: 'java'
+        }, (error, quiz) => {
+          if (error) {
+            return cb(error);
+          }
+
+          async.parallel([
+            (cb) => {
+              Question.create({
+                quizId: quiz.id,
+                value: 'Which class is at the root of the Scala class hierarchy?',
+              }, (error, question) => {
+                if (error) {
+                  return cb(error);
+                }
+
+                Option.create([
+                  {
+                    questionId: question.id,
+                    value: 'scala.scalaObject',
+                    correct: true,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'scala.anyRef',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'scala.Object',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'scala.Any',
+                    correct: false,
+                  }
+                ], cb);
+              });
+            },
+
+            (cb) => {
+              Question.create({
+                quizId: quiz.id,
+                value: 'What is the result of the following?',
+                code: 'Some Code'
+              }, (error, question) => {
+                if (error) {
+                  return cb(error);
+                }
+
+                Option.create([
+                  {
+                    questionId: question.id,
+                    value: '1',
+                    correct: true,
+                  },
+                  {
+                    questionId: question.id,
+                    value: '2',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: '3',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: '4',
+                    correct: false,
+                  }
+                ], cb);
+              });
+            },
+
+            (cb) => {
+              Question.create({
+                quizId: quiz.id,
+                value: 'ORLY',
+                code: 'YARLY'
+              }, (error, question) => {
+                if (error) {
+                  return cb(error);
+                }
+
+                Option.create([
+                  {
+                    questionId: question.id,
+                    value: 'A',
+                    correct: true,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'B',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'C',
+                    correct: false,
+                  },
+                  {
+                    questionId: question.id,
+                    value: 'D',
+                    correct: false,
+                  }
+                ], cb);
+              });
+            }
+          ], (error) => {
+            if (error) {
+              return cb(error);
+            }
+
+            cb();
+          });
+        });
+      }
+    ], cb);
+  });
+}
+
+module.exports = function(app, cb) {
+  createAdminUser(app, function(error, user) {
+    if (error) {
+      return cb(error);
+    }
+
+    createAdminRole(app, function(error, role) {
+      if (error) {
+        return cb(error);
+      }
+
+      createAdminRolemapping(app, user, role, function(error, rolemapping) {
+        if (error) {
+          return cb(error);
+        }
+
+        createAdminACL(app, user, role, rolemapping, function(error, acl) {
+          if (error) {
+            return cb(error);
+          }
+
+          createQuizzes(app, cb);
         });
       });
     });

@@ -33,15 +33,8 @@
     "dataSource": "mongodb",
     "public": false
   },
+
   "user": {
-    "dataSource": "mongodb",
-    "public": true
-  },
-  "Quiz": {
-    "dataSource": "mongodb",
-    "public": true
-  },
-  "Answer": {
     "dataSource": "mongodb",
     "public": true
   },
@@ -53,11 +46,15 @@
     "dataSource": "mongodb",
     "public": true
   },
-  "Event": {
+  "Quiz": {
     "dataSource": "mongodb",
     "public": true
   },
-  "Subject": {
+  "QuizEntry": {
+    "dataSource": "mongodb",
+    "public": true
+  },
+  "QuizEntryAnswer": {
     "dataSource": "mongodb",
     "public": true
   }

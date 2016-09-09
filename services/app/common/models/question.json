@@ -6,15 +6,13 @@
     "validateUpsert": true
   },
   "properties": {
-    "title": {
+    "value": {
       "type": "string",
       "required": true
     },
-    "text": {
-      "type": "string"
-    },
-    "codeText": {
-      "type": "string"
+    "code": {
+      "type": "string",
+      "required": false
     }
   },
   "validations": [],
@@ -22,11 +20,6 @@
     "quiz": {
       "type": "belongsTo",
       "model": "Quiz",
-      "foreignKey": ""
-    },
-    "answers": {
-      "type": "hasOne",
-      "model": "Answer",
       "foreignKey": ""
     },
     "options": {

@@ -6,8 +6,8 @@
     "validateUpsert": true
   },
   "properties": {
-    "date": {
-      "type": "date",
+    "subject": {
+      "type": "string",
       "required": true
     }
   },
@@ -18,19 +18,9 @@
       "model": "Question",
       "foreignKey": ""
     },
-    "event": {
-      "type": "belongsTo",
-      "model": "Event",
-      "foreignKey": ""
-    },
-    "subjects": {
-      "type": "hasOne",
-      "model": "Subject",
-      "foreignKey": ""
-    },
-    "subject": {
-      "type": "belongsTo",
-      "model": "Subject",
+    "quizEntries": {
+      "type": "hasMany",
+      "model": "QuizEntry",
       "foreignKey": ""
     }
   },
