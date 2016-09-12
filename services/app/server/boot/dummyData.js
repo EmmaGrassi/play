@@ -100,7 +100,8 @@ function createQuizzes(app, cb) {
             (cb) => {
               Question.create({
                 quizId: quiz.id,
-                value: 'Which class is at the root of the Scala class hierarchy?',
+                title: 'A title',
+                question: 'Which class is at the root of the Scala class hierarchy?',
               }, (error, question) => {
                 if (error) {
                   return cb(error);
@@ -134,7 +135,8 @@ function createQuizzes(app, cb) {
             (cb) => {
               Question.create({
                 quizId: quiz.id,
-                value: 'What is the result of the following?',
+                title: 'A title',
+                question: 'What is the result of the following?',
                 code: 'Some Code'
               }, (error, question) => {
                 if (error) {
@@ -169,7 +171,8 @@ function createQuizzes(app, cb) {
             (cb) => {
               Question.create({
                 quizId: quiz.id,
-                value: 'ORLY',
+                title: 'A title',
+                question: 'ORLY',
                 code: 'YARLY'
               }, (error, question) => {
                 if (error) {
@@ -222,7 +225,8 @@ function createQuizzes(app, cb) {
             (cb) => {
               Question.create({
                 quizId: quiz.id,
-                value: 'Which class is at the root of the Scala class hierarchy?',
+                title: 'A title',
+                question: 'Which class is at the root of the Scala class hierarchy?',
               }, (error, question) => {
                 if (error) {
                   return cb(error);
@@ -256,7 +260,8 @@ function createQuizzes(app, cb) {
             (cb) => {
               Question.create({
                 quizId: quiz.id,
-                value: 'What is the result of the following?',
+                title: 'A title',
+                question: 'What is the result of the following?',
                 code: 'Some Code'
               }, (error, question) => {
                 if (error) {
@@ -291,7 +296,8 @@ function createQuizzes(app, cb) {
             (cb) => {
               Question.create({
                 quizId: quiz.id,
-                value: 'ORLY',
+                title: 'A title',
+                question: 'ORLY',
                 code: 'YARLY'
               }, (error, question) => {
                 if (error) {
@@ -344,7 +350,8 @@ function createQuizzes(app, cb) {
             (cb) => {
               Question.create({
                 quizId: quiz.id,
-                value: 'Which class is at the root of the Scala class hierarchy?',
+                title: 'A title',
+                question: 'Which class is at the root of the Scala class hierarchy?',
               }, (error, question) => {
                 if (error) {
                   return cb(error);
@@ -378,7 +385,8 @@ function createQuizzes(app, cb) {
             (cb) => {
               Question.create({
                 quizId: quiz.id,
-                value: 'What is the result of the following?',
+                title: 'Title!',
+                question: 'What is the result of the following?',
                 code: 'Some Code'
               }, (error, question) => {
                 if (error) {
@@ -413,7 +421,8 @@ function createQuizzes(app, cb) {
             (cb) => {
               Question.create({
                 quizId: quiz.id,
-                value: 'ORLY',
+                title: 'A title',
+                question: 'ORLY',
                 code: 'YARLY'
               }, (error, question) => {
                 if (error) {
@@ -466,7 +475,8 @@ function createQuizzes(app, cb) {
             (cb) => {
               Question.create({
                 quizId: quiz.id,
-                value: 'Which class is at the root of the Scala class hierarchy?',
+                title: 'A title',
+                question: 'Which class is at the root of the Scala class hierarchy?',
               }, (error, question) => {
                 if (error) {
                   return cb(error);
@@ -500,7 +510,8 @@ function createQuizzes(app, cb) {
             (cb) => {
               Question.create({
                 quizId: quiz.id,
-                value: 'What is the result of the following?',
+                title: 'A title',
+                question: 'What is the result of the following?',
                 code: 'Some Code'
               }, (error, question) => {
                 if (error) {
@@ -535,7 +546,8 @@ function createQuizzes(app, cb) {
             (cb) => {
               Question.create({
                 quizId: quiz.id,
-                value: 'ORLY',
+                title: 'A title',
+                question: 'ORLY',
                 code: 'YARLY'
               }, (error, question) => {
                 if (error) {
@@ -588,7 +600,8 @@ function createQuizzes(app, cb) {
             (cb) => {
               Question.create({
                 quizId: quiz.id,
-                value: 'Which class is at the root of the Scala class hierarchy?',
+                title: 'A title',
+                question: 'Which class is at the root of the Scala class hierarchy?',
               }, (error, question) => {
                 if (error) {
                   return cb(error);
@@ -622,7 +635,8 @@ function createQuizzes(app, cb) {
             (cb) => {
               Question.create({
                 quizId: quiz.id,
-                value: 'What is the result of the following?',
+                title: 'A title',
+                question: 'What is the result of the following?',
                 code: 'Some Code'
               }, (error, question) => {
                 if (error) {
@@ -657,7 +671,8 @@ function createQuizzes(app, cb) {
             (cb) => {
               Question.create({
                 quizId: quiz.id,
-                value: 'ORLY',
+                title: 'A title',
+                question: 'ORLY',
                 code: 'YARLY'
               }, (error, question) => {
                 if (error) {

@@ -6,7 +6,11 @@
     "validateUpsert": true
   },
   "properties": {
-    "value": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "question": {
       "type": "string",
       "required": true
     },
