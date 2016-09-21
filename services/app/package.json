@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "server/server.js",
   "scripts": {
-    "start": "npm run build-client && node .",
+    "start": "npm run build-client:watch && node .",
     "test": "./node_modules/.bin/mocha --recursive test",
-    "build-client": "webpack --config webpack.config.js",
+    "build-client": "./node_modules/.bin/webpack --config webpack.config.js",
     "build-client:watch": "npm run build-client -- --watch",
     "postinstall": "npm run build-client"
   },

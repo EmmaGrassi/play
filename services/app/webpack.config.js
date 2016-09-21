@@ -19,7 +19,7 @@ const config = {
     ],
     loaders: [
       { test: /\.html$/, loader: 'raw' },
-      { test: /\.json$/, loader: "json-loader" },
+      { test: /\.json$/, loader: 'json-loader' },
       {
         test: /\.js$/,
         loader: 'babel',
