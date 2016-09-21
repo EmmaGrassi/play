@@ -1,0 +1,24 @@
+{
+  "name": "QuizEntryAnswer",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "questions": {
+      "type": "hasOne",
+      "model": "Question",
+      "foreignKey": ""
+    },
+    "options": {
+      "type": "hasOne",
+      "model": "Option",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
