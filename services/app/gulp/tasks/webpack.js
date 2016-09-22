@@ -44,7 +44,7 @@ gulp.task('webpack:dev-server', cb => {
   const compiler = webpack(config)
 
   const devServerOptions = {
-    hot: true,
+    //hot: true,
     proxy: {
       '*': 'http://0.0.0.0:3000'
     },

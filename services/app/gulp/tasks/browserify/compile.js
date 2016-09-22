@@ -5,7 +5,7 @@ import common from './common'
 //import handleError from '../../lib/handleError'
 
 export default function compile(cb) {
-  const bundleEntryFilename = "loopback-app.js"
+  const bundleEntryFilename = "loopback-initialize.js"
   const bundleTargetFilename = "loopback-app.bundle.js"
   const sourceDirectoryPath = "build/client/js"
   const targetDirectoryPath = "build/client"
