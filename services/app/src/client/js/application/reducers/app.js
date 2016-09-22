@@ -5,7 +5,5 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-  log.debug('reducers/app', action, state)
-
   return state
 }

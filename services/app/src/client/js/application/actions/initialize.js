@@ -1,10 +1,14 @@
 import { createAction } from 'redux-actions'
-import log from 'loglevel'
 
-import initializeService from '../services/initialize'
+const initializeStart = createAction('initialize:start')
+const initializeSuccess = createAction('initialize:success')
 
-export default createAction('initialize', () => {
-  log.debug('initialize action');
+export default () => {
+  return (dispatch) => {
+    dispatch(initializeStart())
 
-  return initializeService();
-})
+    // TODO: Initializy things.
+
+    dispatch(initializeSuccess())
+  }
+}

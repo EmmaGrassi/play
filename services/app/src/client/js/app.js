@@ -23,11 +23,11 @@ function start() {
 
   domready(() => render(routes, rootElement))
 
-  if (module.hot) {
-    module.hot.accept('./application/routes', () => {
-      render(routes, rootElement)
-    })
-  }
+  //if (module.hot) {
+  //  module.hot.accept('./application/routes', () => {
+  //    render(routes, rootElement)
+  //  })
+  //}
 }
 
 store.subscribe(() => {

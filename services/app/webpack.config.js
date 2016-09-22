@@ -30,7 +30,7 @@ const options = {
 
   module: {
     loaders: [
-      { test: /\.js$/,   loader: 'react-hot-loader/webpack' },
+      //{ test: /\.js$/,   loader: 'react-hot-loader/webpack' },
       { test: /\.json$/, loader: 'json' },
     ]
   },
@@ -40,12 +40,12 @@ const options = {
 
 if (process.env.NODE_ENV === 'develop') {
   options.entry.app = [
-    `react-hot-loader/patch`,
+    //`react-hot-loader/patch`,
     `webpack-dev-server/client?${webpackServiceURI}`,
     //`webpack/hot/only-dev-server`,
   ].concat(options.entry.app)
 
-  options.plugins.push(webpack.HotModuleReplacementPlugin())
+  //options.plugins.push(webpack.HotModuleReplacementPlugin())
 }
 
 console.log('webpack options', options)
