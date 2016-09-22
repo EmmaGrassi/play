@@ -19,9 +19,9 @@ const store    = window.store    = configureStore(reducers)
 const routes   = window.routes   = getRoutes(application, store)
 
 function start() {
-  const rootElement = document.querySelector('#root')
+  const rootElement = document.getElementById('root')
 
-  domready(() => render(routes, rootElement))
+  render(<Provider store={store} children={routes}/>, rootElement)
 
   //if (module.hot) {
   //  module.hot.accept('./application/routes', () => {
@@ -30,17 +30,15 @@ function start() {
   //}
 }
 
+// Set this initialize flow up so that things may happen asynchronously while
+// loading the page, like getting cookie information, fetching a user profile
+// from the server based on it, etc.
 store.subscribe(() => {
   const state = store.getState()
 
-  if (
-    state &&
-    state.Application &&
-    state.Application.initialize &&
-    state.Application.initialize.hasSucceeded
-  ) {
-    debugger
-    start()
+  if (state.app.initialize.hasSucceeded) {
+    // On DOM ready, render.
+    domready(start)
   }
 });
 

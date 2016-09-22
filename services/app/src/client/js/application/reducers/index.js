@@ -2,9 +2,9 @@ import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
 import * as log from 'loglevel'
 
-import app from './app'
+import initialize from './initialize'
 
 export default {
-  app,
+  initialize,
   routing: routerReducer,
 }

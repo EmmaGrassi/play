@@ -12,14 +12,14 @@ export function configureStore(appReducers) {
   //log.debug('store.configureStore')
 
   const reducers = combineReducers({
-    Application: appReducers,
+    app: appReducers,
     form: reduxForm.reducer
   });
 
   //log.debug('store.configureStore:reducers', reducers)
 
   const initialState = {
-    Application: {},
+    app: {},
     form: {}
   }
 
