@@ -28,7 +28,8 @@ function transformInto(data) {
 export default async (data) => {
   transformInto(data)
 
-  data.email = 'TESTING_FALSE_EMAIL_VALUE'
+  // Test server side validation.
+  //data.email = 'TESTING_FALSE_EMAIL_VALUE'
 
   return jsonPostRequest('/api/QuizEntries', data)
 }
