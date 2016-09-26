@@ -7,9 +7,10 @@ import PersonForm from '../PersonForm'
 export default class App extends React.Component {
   render() {
     return (
-      <div className="container">
-        <Header/>
-        <PersonForm/>
+      <div className="row">
+        <div className="col-md-12">
+          Dev Quiz
+        </div>
       </div>
     )
   }

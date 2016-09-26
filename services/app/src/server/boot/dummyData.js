@@ -8,7 +8,6 @@ function createAdminUser(app, cb) {
   const user = app.models.user;
 
   user.destroyAll(function(error){
-
     if (error) {
       return cb(error);
     }
@@ -19,7 +18,6 @@ function createAdminUser(app, cb) {
       password: 'test',
       firstName: 'Admin',
       lastName: 'Admin',
-      twitter: 'SomeTwitterHandle',
       github: 'MyGithubProfile'
     }, cb);
   });

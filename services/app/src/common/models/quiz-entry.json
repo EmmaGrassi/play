@@ -14,7 +14,11 @@
       "type": "string",
       "required": true
     },
-    "twitter": {
+    "email": {
+      "type": "string",
+      "required": true
+    },
+    "github": {
       "type": "string"
     },
     "interests": {

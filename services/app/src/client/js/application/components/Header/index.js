@@ -1,7 +1,7 @@
 import * as log from 'loglevel'
 import { connect } from 'react-redux'
 
-import Component from './App'
+import Component from './Header'
 
 function mapStateToProps(state) {
   return {}
