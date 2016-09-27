@@ -1,16 +1,14 @@
 import * as log from 'loglevel'
 import React from 'react'
-//import { AppContainer } from 'react-hot-loader'
-import { Router as ReactRouter, Route, hashHistory } from 'react-router'
+import { Route } from 'react-router'
 
 import App from './components/App'
 
-export default function applicationRouter({ store, history }) {
-  log.debug('applicationRouter', store, history)
-
+export default ({ routes }) => {
   return (
-    <ReactRouter history={hashHistory}>
+    <div>
       <Route path="/" component={App}/>
-    </ReactRouter>
+      {routes}
+    </div>
   )
 }

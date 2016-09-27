@@ -1,19 +1,12 @@
-import React from 'react'
-import { combineReducers } from 'redux'
 import * as log from 'loglevel'
-
-import { keys, each, map } from 'lodash'
-
-function isObjectEmpty(object) {
-  return keys(object).length === 0
-}
+import React from 'react'
+import _ from 'lodash'
+import { combineReducers } from 'redux'
 
 export function getReducers(module) {
-  log.debug('module#get-reducers', module)
-
   const moduleReducers = Object.assign({}, module.reducers)
 
-  each(module.modules, (subModule) => {
+  _.each(module.modules, (subModule) => {
     const submoduleReducers = getReducers(subModule)
 
     if (submoduleReducers) {
@@ -21,18 +14,25 @@ export function getReducers(module) {
     }
   })
 
-  if (!isObjectEmpty(moduleReducers)) {
+  if (!_.isEmpty(moduleReducers)) {
     return combineReducers(moduleReducers)
   }
 }
 
 export function getRoutes(module, store) {
-  log.debug('module#get-routes', module)
+  let routes = module.modules && module.modules.length && _.map(module.modules, (subModule, i) => {
+    // Recursively get the submodule's routes.
+    const subModuleRoutes = getRoutes(subModule, store)
 
+    return <div key={i}>{subModuleRoutes}</div>
+  }) || null
+
+  // Get the module's routes.
   return module.routes({
-    routes: map(module.routes, (submodule, i) => {
-      return <div key={i}>{getRoutes(submodule, store)}</div>
-    }),
-    store
+    // Pass the subModule's route elements.
+    routes: routes,
+
+    // Pass the Redux store.
+    store: store,
   })
 }

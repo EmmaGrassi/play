@@ -1,27 +1,21 @@
 import _ from 'lodash'
 
-import jsonPostRequest from './jsonPostRequest'
-
 // Transform `{ intoX: true, intoY: false, ... }` into `{ into: { x: true, y: false },  ... }`
 function transformInto(data) {
   const into = {}
-  _(data)
-    .keys()
-    .filter(key => key.startsWith('into'))
-    .map(key => {
-      const finalKey = key
+
+  _.each(data, (v, k) => {
+    if (k.startsWith('into')) {
+      const finalKey = k
         .replace('into', '')
         .toLowerCase()
 
-      const value = data[key]
+      into[finalKey] = v
 
-      delete data[key]
+      delete data[k]
+    }
+  })
 
-      return [ finalKey, value ]
-    })
-    .each(kv => {
-      into[kv[0]] = kv[1]
-    })
   data.into = into
 }
 
@@ -31,5 +25,12 @@ export default async (data) => {
   // Test server side validation.
   //data.email = 'TESTING_FALSE_EMAIL_VALUE'
 
-  return jsonPostRequest('/api/QuizEntries', data)
+  return fetch('/api/QuizEntries', {
+    method: 'POST',
+    headers: {
+      'Accept':       'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
 }

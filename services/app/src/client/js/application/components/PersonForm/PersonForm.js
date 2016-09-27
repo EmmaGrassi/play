@@ -2,11 +2,16 @@ import * as log from 'loglevel'
 import React from 'react'
 import _ from 'lodash'
 import { Field, SubmissisonError, reduxForm } from 'redux-form'
-import { push } from 'react-router'
+import { connect } from 'react-redux'
+import { hashHistory } from 'react-router'
 
-import submitPersonForm from '../../services/submitPersonForm'
+import postQuizEntry from '../../actions/submitPersonForm'
 
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+const self = x => x
+
+let FIXME_STATE
 
 @reduxForm({
   form: 'person',
@@ -53,18 +58,30 @@ const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"
     return errors
   },
 
-  onSubmitFail: () => {
-    debugger
+  onSubmitFail: async () => {
+    const json = await response.json()
+
+    // Get the first of each message, since the form supports one error message per input currently.
+    const messages = _.mapValues(json.error.details.messages, a => a[0])
+
+    // Set the generic error message.
+    messages._error = json.error._message
+
+    throw new SubmissisonError(messages)
   },
 
-  onSubmitSuccess: () => {
-    debugger
-  },
+  onSubmitSuccess: async (response, dispatch) => {
+    hashHistory.push(`/quiz/${FIXME_STATE}`)
+  }
 })
-export default class App extends React.Component {
+@connect(
+  self,
+  (dispatch) => {
+    return {}
+  }
+)
+export default class PersonForm extends React.Component {
   componentWillMount() {
-    debugger
-
     this.props.initialize({
       firstName: '',
       lastName: '',
@@ -81,35 +98,13 @@ export default class App extends React.Component {
   }
 
   async handleSubmit(data) {
-    return submitPersonForm(data)
-
-    /*
-    debugger
-
-    const response = await submitPersonForm(data)
-
-    if (!response.ok) {
-      const json = await response.json()
-
-      debugger
-
-      // Get the first of each message, since the form supports one error message per input currently.
-      const messages = _.mapValues(json.error.details.messages, a => a[0])
-
-      // Set the generic error message.
-      messages._error = json.error._message
-
-      throw new SubmissisonError(messages)
-    }
-    */
+    return postQuizEntry(data)
   }
 
-  onSubmitFail() {
-    debugger
-  }
+  startSubmit(language, ...args) {
+    FIXME_STATE = language
 
-  onSubmitSuccess() {
-    debugger
+    this.props.handleSubmit(this.handleSubmit.bind(this))
   }
 
   renderAsterisk() {
@@ -314,12 +309,12 @@ export default class App extends React.Component {
           <div className="col-md-12">
             <center>
               <div className="btn-group" role="group">
-                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting}>Clojure</button>
-                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting}>Java</button>
-                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting}>Node.js</button>
-                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting}>Python</button>
-                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting}>Ruby</button>
-                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting}>Scala</button>
+                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting} onClick={this.startSubmit.bind(this, 'clojure')}>Clojure</button>
+                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting} onClick={this.startSubmit.bind(this, 'java')}>Java</button>
+                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting} onClick={this.startSubmit.bind(this, 'node')}>Node.js</button>
+                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting} onClick={this.startSubmit.bind(this, 'python')}>Python</button>
+                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting} onClick={this.startSubmit.bind(this, 'ruby')}>Ruby</button>
+                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting} onClick={this.startSubmit.bind(this, 'scala')}>Scala</button>
               </div>
             </center>
           </div>

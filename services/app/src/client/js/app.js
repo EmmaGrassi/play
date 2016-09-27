@@ -1,9 +1,11 @@
 import 'whatwg-fetch'
 
+import * as log from 'loglevel'
 import React from 'react'
 import domready from 'domready'
-import * as log from 'loglevel'
+import reactElementToJSXString from 'react-element-to-jsx-string'
 import { Provider } from 'react-redux'
+import { Router, hashHistory } from 'react-router'
 import { render } from 'react-dom'
 import { syncHistoryWithStore } from 'react-router-redux'
 
@@ -18,10 +20,16 @@ const reducers = window.reducers = getReducers(application)
 const store    = window.store    = configureStore(reducers)
 const routes   = window.routes   = getRoutes(application, store)
 
+log.debug('routes', reactElementToJSXString(routes))
+
 function start() {
   const rootElement = document.getElementById('root')
 
-  render(<Provider store={store} children={routes}/>, rootElement)
+  const allRoutes = <Router history={hashHistory}>
+    {routes}
+  </Router>
+
+  render(<Provider store={store} children={allRoutes}/>, rootElement)
 
   //if (module.hot) {
   //  module.hot.accept('./application/routes', () => {
