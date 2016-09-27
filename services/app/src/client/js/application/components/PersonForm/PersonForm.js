@@ -2,10 +2,9 @@ import * as log from 'loglevel'
 import React from 'react'
 import _ from 'lodash'
 import { Field, SubmissisonError, reduxForm } from 'redux-form'
-import { connect } from 'react-redux'
 import { hashHistory } from 'react-router'
 
-import postQuizEntry from '../../actions/submitPersonForm'
+import postQuizEntry from '../../services/postQuizEntry'
 
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -49,8 +48,6 @@ let FIXME_STATE
       errors.email = 'Please enter a valid email address.'
     }
 
-    log.debug('contact', data.contact)
-
     if (!data.contact) {
       errors.contact = 'You must agree to these terms in order to continue.'
     }
@@ -58,7 +55,11 @@ let FIXME_STATE
     return errors
   },
 
-  onSubmitFail: async () => {
+  // TODO: Server side validation
+  /*
+  onSubmitFail: async (errors) => {
+    debugger
+
     const json = await response.json()
 
     // Get the first of each message, since the form supports one error message per input currently.
@@ -69,17 +70,12 @@ let FIXME_STATE
 
     throw new SubmissisonError(messages)
   },
+  */
 
   onSubmitSuccess: async (response, dispatch) => {
     hashHistory.push(`/quiz/${FIXME_STATE}`)
   }
 })
-@connect(
-  self,
-  (dispatch) => {
-    return {}
-  }
-)
 export default class PersonForm extends React.Component {
   componentWillMount() {
     this.props.initialize({
