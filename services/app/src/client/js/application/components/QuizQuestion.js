@@ -1,12 +1,17 @@
 import React from 'react'
 import * as log from 'loglevel'
+import { connect } from 'react-redux'
 
-export default class Quiz extends React.Component {
+@connect(
+  () => { return {} },
+  () => { return {} },
+)
+export default class QuizQuestion extends React.Component {
   render() {
     return (
       <div className="row">
         <div className="col-md-12">
-          QUIZ
+          QUIZQUESTION
         </div>
       </div>
     )

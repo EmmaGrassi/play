@@ -26,6 +26,10 @@
         "string"
       ]
     },
+    "subject": {
+      "type": "string",
+      "required": true
+    },
     "startTime": {
       "type": "date",
       "required": true,

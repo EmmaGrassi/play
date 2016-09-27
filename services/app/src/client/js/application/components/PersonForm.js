@@ -4,7 +4,8 @@ import _ from 'lodash'
 import { Field, SubmissisonError, reduxForm } from 'redux-form'
 import { hashHistory } from 'react-router'
 
-import postQuizEntry from '../../services/postQuizEntry'
+import setQuizEntryAction from '../actions/setQuizEntry'
+import postQuizEntryService from '../services/postQuizEntry'
 
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -58,8 +59,6 @@ let FIXME_STATE
   // TODO: Server side validation
   /*
   onSubmitFail: async (errors) => {
-    debugger
-
     const json = await response.json()
 
     // Get the first of each message, since the form supports one error message per input currently.
@@ -73,11 +72,19 @@ let FIXME_STATE
   */
 
   onSubmitSuccess: async (response, dispatch) => {
+    log.debug('PersonForm.reduxForm#onSubmitSuccess', response, dispatch)
+
+    const json = await response.json()
+
+    dispatch(setQuizEntryAction(json))
+
     hashHistory.push(`/quiz/${FIXME_STATE}`)
   }
 })
 export default class PersonForm extends React.Component {
   componentWillMount() {
+    log.debug('PersonForm#componentWillMount')
+
     this.props.initialize({
       firstName: '',
       lastName: '',
@@ -94,20 +101,32 @@ export default class PersonForm extends React.Component {
   }
 
   async handleSubmit(data) {
-    return postQuizEntry(data)
+    log.debug('PersonForm#handleSubmit')
+
+    // FIXME
+    data.subject = FIXME_STATE
+
+    return postQuizEntryService(data)
   }
 
   startSubmit(language, ...args) {
+    log.debug('PersonForm#startSubmit')
+
+    // FIXME
     FIXME_STATE = language
 
     this.props.handleSubmit(this.handleSubmit.bind(this))
   }
 
   renderAsterisk() {
+    log.debug('PersonForm#renderAsterisk')
+
     return <strong style={{color:'#000000'}}>*</strong>
   }
 
   renderTextInput({ type, input, meta }) {
+    log.debug('PersonForm#renderTextInput')
+
     if (meta.touched) {
       if (meta.error) {
         return (
@@ -134,6 +153,8 @@ export default class PersonForm extends React.Component {
   }
 
   renderCheckbox({ type, input, meta, label }) {
+    log.debug('PersonForm#renderCheckbox')
+
     if (meta.touched) {
       if (meta.error) {
         return (
@@ -167,6 +188,8 @@ export default class PersonForm extends React.Component {
   }
 
   renderContactCheckbox({ type, input, meta, label }) {
+    log.debug('PersonForm#renderContactCheckbox')
+
     if (meta.touched) {
       if (meta.error) {
         return (
@@ -212,6 +235,8 @@ export default class PersonForm extends React.Component {
   }
 
   renderServerError(error) {
+    log.debug('PersonForm#renderServerError')
+
     return (
       <div className="row">
         <div className="col-md-12">
@@ -222,6 +247,8 @@ export default class PersonForm extends React.Component {
   }
 
   render() {
+    log.debug('PersonForm#render')
+
     const {
       handleSubmit,
       pristine,
