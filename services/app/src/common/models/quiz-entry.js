@@ -37,19 +37,24 @@ module.exports = function(QuizEntry) {
 
   function getQuizEntries(cb) {
     QuizEntry.find({
-      include: [{
-        relation: 'answers',
-        scope: {
-          include: [
-            {
-              relation: 'option'
-            },
-            {
-              relation: 'question'
-            }
-          ]
-        }
-      }]
+      include: [
+        {
+          relation: 'answers',
+          scope: {
+            include: [
+              {
+                relation: 'option',
+                scope: {
+                  fields: [ 'correct' ],
+                  where: {
+                    correct: true
+                  }
+                }
+              },
+            ],
+          },
+        },
+      ]
     }, cb)
   }
 
@@ -59,9 +64,31 @@ module.exports = function(QuizEntry) {
         return cb(error)
       }
 
-      const filtered = filterEntries(entries)
+      console.log(JSON.stringify(entries.map(x => x.toJSON())))
 
-      cb(null, filtered)
+      /*
+      let filtered = filterEntries(entries)
+
+      filtered = _.map(filtered, entry => {
+        let score = 0
+
+        _.each(entry.answers, answer => {
+          console.log('answer', answer)
+
+          if (answer.option.correct) {
+            score++
+          }
+        })
+
+        entry.score = score
+
+        return entry
+      })
+
+      const grouped = _.groupBy(filtered, 'score')
+      */
+
+      cb(null, entries)
     })
   }
 
@@ -72,7 +99,7 @@ module.exports = function(QuizEntry) {
     },
     returns: {
       arg: 'scores',
-      type: 'object',
+      type: 'array',
     }
   })
 }

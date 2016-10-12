@@ -7,7 +7,8 @@ import { exists } from 'fs'
 gulp.task('server:run', cb => {
   const debounce = 300
   const sourceFilePath = "build/server/server.js"
-  const watchPath = "build/server/**/*"
+  const serverWatchPath = "build/server/**/*"
+  const commonWatchPath = "build/common/**/*"
 
   exists(sourceFilePath, doesExist => {
     if (!doesExist) {
@@ -17,7 +18,8 @@ gulp.task('server:run', cb => {
         path: sourceFilePath
       })
 
-      gulpSaneWatch(watchPath, { debounce }, () => gulpDevelopServer.restart())
+      gulpSaneWatch(serverWatchPath, { debounce }, () => gulpDevelopServer.restart())
+      gulpSaneWatch(commonWatchPath, { debounce }, () => gulpDevelopServer.restart())
     }
 
     cb()

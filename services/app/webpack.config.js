@@ -1,5 +1,4 @@
 const path = require('path');
-const util = require('util');
 
 const webpack = require('webpack');
 
@@ -32,6 +31,7 @@ const options = {
     loaders: [
       //{ test: /\.js$/,   loader: 'react-hot-loader/webpack' },
       { test: /\.json$/, loader: 'json' },
+      { test: /\.svg$/, loader: 'babel?presets[]=es2015,presets[]=react!svg-react' },
     ]
   },
 

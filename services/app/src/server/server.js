@@ -27,4 +27,3 @@ boot(app, __dirname, (error) => {
 })
 
 module.exports = app
-

@@ -17,12 +17,9 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
 #RUN mv /tmp/node_modules /service
 
 RUN mkdir -p /service
-ADD node_modules /service
-WORKDIR /service
-RUN npm install
-ADD src /service
-ADD test /service
 
+ADD . /service
 WORKDIR /service
 
-CMD dockerize -wait tcp://db:27017 npm start
+CMD dockerize -wait tcp://db:27017 ./node_modules/.bin/gulp develop
+
