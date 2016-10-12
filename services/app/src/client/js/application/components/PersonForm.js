@@ -4,6 +4,14 @@ import _ from 'lodash'
 import { Field, SubmissisonError, reduxForm } from 'redux-form'
 import { hashHistory } from 'react-router'
 
+import Header from './Header'
+
+import JavaIcon from 'babel!svg-react!../../../images/svg/java.svg?name=JavaIcon'
+import NodeIcon from 'babel!svg-react!../../../images/svg/node.svg?name=NodeIcon'
+import PythonIcon from 'babel!svg-react!../../../images/svg/python.svg?name=PythonIcon'
+import RubyIcon from 'babel!svg-react!../../../images/svg/ruby.svg?name=RubyIcon'
+import ScalaIcon from 'babel!svg-react!../../../images/svg/scala.svg?name=ScalaIcon'
+
 import setQuizEntryAction from '../actions/setQuizEntry'
 import postQuizEntryService from '../services/postQuizEntry'
 
@@ -20,7 +28,6 @@ let FIXME_STATE
     'email',
     'firstName',
     'github',
-    'intoClojure',
     'intoJava',
     'intoNode',
     'intoPython',
@@ -92,7 +99,6 @@ export default class PersonForm extends React.Component {
       github: '',
       intoJava: false,
       intoScala: false,
-      intoClojure: false,
       intoNode: false,
       intoRuby: false,
       intoPython: false,
@@ -234,8 +240,115 @@ export default class PersonForm extends React.Component {
     }
   }
 
+  renderDetails() {
+    return (
+      <div className="row">
+        <div className="col-md-12">
+          <div className="card">
+            <div className="card-header">
+              <strong>Details</strong>
+            </div>
+            <div className="card-block">
+              <blockquote className="card-blockquote">
+                <div className="form-group">
+                  <label htmlFor="firstName">First name {this.renderAsterisk()}</label>
+                  <Field name="firstName" type="text" component={this.renderTextInput} />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="lastName">Last name {this.renderAsterisk()}</label>
+                  <Field name="lastName" type="text" component={this.renderTextInput} />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="email">Email {this.renderAsterisk()}</label>
+                  <Field name="email" type="text" component={this.renderTextInput} />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="github">Github</label>
+                  <Field name="github" type="text" component={this.renderTextInput} />
+                </div>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  renderInterests() {
+    return (
+      <div className="row">
+        <div className="col-md-12">
+          <div className="card">
+            <div className="card-header">
+              <strong>Interests</strong>
+            </div>
+            <div className="card-block">
+              <div className="row">
+                <div className="col-md-2">
+                  <div className="form-group">
+                    <Field name="intoJava" type="checkbox" label="Java" component={this.renderCheckbox} />
+                  </div>
+                </div>
+
+                <div className="col-md-2">
+                  <div className="form-group">
+                    <Field name="intoNode" type="checkbox" label="Node.js" component={this.renderCheckbox} />
+                  </div>
+                </div>
+
+                <div className="col-md-2">
+                  <div className="form-group">
+                    <Field name="intoPython" type="checkbox" label="Python" component={this.renderCheckbox} />
+                  </div>
+                </div>
+
+                <div className="col-md-2">
+                  <div className="form-group">
+                    <Field name="intoRuby" type="checkbox" label="Ruby" component={this.renderCheckbox} />
+                  </div>
+                </div>
+
+                <div className="col-md-2">
+                  <div className="form-group">
+                    <Field name="intoScala" type="checkbox" label="Scala" component={this.renderCheckbox} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  renderTermsOfService() {
+    return (
+      <div>
+        <div className="row">
+          <div className="col-md-12">
+            <div className="card">
+              <div className="card-header">
+                <strong>Terms of Service {this.renderAsterisk()}</strong>
+              </div>
+              <div className="card-block">
+                <Field name="contact" type="checkbox" component={this.renderContactCheckbox} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   renderServerError(error) {
-    log.debug('PersonForm#renderServerError')
+    //log.debug('PersonForm#renderServerError')
+
+    if (!error) {
+      return null
+    }
 
     return (
       <div className="row">
@@ -246,85 +359,27 @@ export default class PersonForm extends React.Component {
     )
   }
 
-  render() {
-    log.debug('PersonForm#render')
-
+  renderQuizStart() {
     const {
-      handleSubmit,
       pristine,
       submitting,
-      error
     } = this.props
 
     return (
-      <form onSubmit={handleSubmit(this.handleSubmit)}>
+      <div>
         <div className="row">
           <div className="col-md-12">
-            <div className="form-group">
-              <label htmlFor="firstName">First name {this.renderAsterisk()}</label>
-              <Field name="firstName" type="text" component={this.renderTextInput} />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="lastName">Last name {this.renderAsterisk()}</label>
-              <Field name="lastName" type="text" component={this.renderTextInput} />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="email">Email {this.renderAsterisk()}</label>
-              <Field name="email" type="text" component={this.renderTextInput} />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="github">Github</label>
-              <Field name="github" type="text" component={this.renderTextInput} />
-            </div>
+            <center>
+              <label><strong>Start the quiz!</strong></label>
+            </center>
           </div>
         </div>
 
         <div className="row">
           <div className="col-md-12">
-            <label>I'm into</label>
-          </div>
-
-          <div className="col-md-2">
-            <Field name="intoClojure" type="checkbox" label="Clojure" component={this.renderCheckbox} />
-          </div>
-
-          <div className="col-md-2">
-            <Field name="intoJava" type="checkbox" label="Java" component={this.renderCheckbox} />
-          </div>
-
-          <div className="col-md-2">
-            <Field name="intoNode" type="checkbox" label="Node.js" component={this.renderCheckbox} />
-          </div>
-
-          <div className="col-md-2">
-            <Field name="intoPython" type="checkbox" label="Python" component={this.renderCheckbox} />
-          </div>
-
-          <div className="col-md-2">
-            <Field name="intoRuby" type="checkbox" label="Ruby" component={this.renderCheckbox} />
-          </div>
-
-          <div className="col-md-2">
-            <Field name="intoScala" type="checkbox" label="Scala" component={this.renderCheckbox} />
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col-md-12">
-            <label><strong>Terms of Service {this.renderAsterisk()}</strong></label>
-          </div>
-        </div>
-
-        <Field name="contact" type="checkbox" component={this.renderContactCheckbox} />
-
-        {this.renderServerError(error)}
-
-        <div className="row">
-          <div className="col-md-12">
-            <label><strong>Start the quiz!</strong></label>
+            <center>
+              <small>Answer as many questions as you can before your time runs out.</small>
+            </center>
           </div>
         </div>
 
@@ -332,17 +387,48 @@ export default class PersonForm extends React.Component {
           <div className="col-md-12">
             <center>
               <div className="btn-group" role="group">
-                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting} onClick={this.startSubmit.bind(this, 'clojure')}>Clojure</button>
-                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting} onClick={this.startSubmit.bind(this, 'java')}>Java</button>
-                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting} onClick={this.startSubmit.bind(this, 'node')}>Node.js</button>
-                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting} onClick={this.startSubmit.bind(this, 'python')}>Python</button>
-                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting} onClick={this.startSubmit.bind(this, 'ruby')}>Ruby</button>
-                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting} onClick={this.startSubmit.bind(this, 'scala')}>Scala</button>
+                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting} onClick={this.startSubmit.bind(this, 'java')}>
+                  <JavaIcon style={{ width: 64, height: 64 }}/>
+                </button>
+                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting} onClick={this.startSubmit.bind(this, 'node')}>
+                  <NodeIcon style={{ width: 64, height: 64 }}/>
+                </button>
+                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting} onClick={this.startSubmit.bind(this, 'python')}>
+                  <PythonIcon style={{ width: 64, height: 64 }}/>
+                </button>
+                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting} onClick={this.startSubmit.bind(this, 'ruby')}>
+                  <RubyIcon style={{ width: 64, height: 64 }}/>
+                </button>
+                <button type="submit" className="btn btn-secondary" disabled={pristine || submitting} onClick={this.startSubmit.bind(this, 'scala')}>
+                  <ScalaIcon style={{ width: 64, height: 64 }}/>
+                </button>
               </div>
             </center>
           </div>
         </div>
-      </form>
+      </div>
+    )
+  }
+
+  render() {
+    log.debug('PersonForm#render')
+
+    const {
+      handleSubmit,
+      error
+    } = this.props
+
+    return (
+      <div>
+        <Header/>
+        <form onSubmit={handleSubmit(this.handleSubmit)}>
+          {this.renderDetails()}
+          {this.renderInterests()}
+          {this.renderTermsOfService()}
+          {this.renderServerError(error)}
+          {this.renderQuizStart()}
+        </form>
+      </div>
     )
   }
 }

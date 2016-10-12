@@ -1,20 +1,17 @@
 import * as log from 'loglevel'
 import React from 'react'
-import { Route, Redirect } from 'react-router'
+import { Route, IndexRoute } from 'react-router'
 
 import App from './components/App'
+import PersonForm from './components/PersonForm'
 import Quiz from './components/Quiz'
 import QuizQuestion from './components/QuizQuestion'
 
-export default ({ routes }) => {
+export default () => {
   return (
-    <div>
-      <Route path="/" component={App}/>
-      <Route path="/quiz/:language" component={Quiz}>
-        <Redirect from="/" to="/0"/>
-        <Route path="/:question" component={QuizQuestion}/>
-      </Route>
-      {routes}
-    </div>
+    <Route path="/" component={App}>
+      <Route path="/quiz/:language" component={Quiz}/>
+      <IndexRoute component={PersonForm}/>
+    </Route>
   )
 }

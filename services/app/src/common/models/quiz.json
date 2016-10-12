@@ -17,11 +17,6 @@
       "type": "hasMany",
       "model": "Question",
       "foreignKey": ""
-    },
-    "quizEntries": {
-      "type": "hasMany",
-      "model": "QuizEntry",
-      "foreignKey": ""
     }
   },
   "acls": [

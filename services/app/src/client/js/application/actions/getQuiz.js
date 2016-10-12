@@ -10,13 +10,10 @@ export default (subject) => {
     dispatch(start())
 
     const quizResponse = await fetch(`/api/Quizzes?filter[where][subject]=${subject}`)
-    const quizJSON = await quizResponse.json()
-    const quiz = quizJSON[0]
+    const [ quiz ] = await quizResponse.json()
+    const quizQuestionsResponse = await fetch(`/api/Questions?filter[where][quizId]=${quiz.id}&filter[include][options]`)
 
-    const quizEntriesResponse = await fetch(`/api/Questions?filter[where][quizId]=${quiz.id}&filter[include][options]`)
-    const quizEntriesJSON = await quizEntriesResponse.json()
-
-    quiz.entries = quizEntriesJSON
+    quiz.questions = await quizQuestionsResponse.json()
 
     dispatch(success(quiz))
   }

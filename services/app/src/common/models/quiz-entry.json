@@ -45,6 +45,11 @@
       "type": "belongsTo",
       "model": "Quiz",
       "foreignKey": ""
+    },
+    "answers": {
+      "type": "hasMany",
+      "model": "QuizEntryAnswer",
+      "foreignKey": ""
     }
   },
   "acls": [],

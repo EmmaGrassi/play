@@ -8,12 +8,12 @@
   "properties": {},
   "validations": [],
   "relations": {
-    "questions": {
+    "question": {
       "type": "hasOne",
       "model": "Question",
       "foreignKey": ""
     },
-    "options": {
+    "option": {
       "type": "hasOne",
       "model": "Option",
       "foreignKey": ""
