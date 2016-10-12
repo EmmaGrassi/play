@@ -3,8 +3,6 @@ import async from 'async'
 
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-import app from '../../server/server'
-
 // - Group by email.
 // - Sort each list by start time and return the highest startTime.
 // - Cast back to an array of unique per email entries.
@@ -37,56 +35,34 @@ module.exports = function(QuizEntry) {
     message: 'Please enter a valid email address',
   })
 
-  console.log('BAAA', _.keys(QuizEntry))
-
-  function getEntryScores(entries, cb) {
-    async.parallel(_.map(entries, entry => (cb) => {
-      QuizEntryAnswer.find({ where: { quizEntryId: entry.id }, }, (error, answers) => {
-        if (error) {
-          return cb(error)
+  function getQuizEntries(cb) {
+    QuizEntry.find({
+      include: [{
+        relation: 'answers',
+        scope: {
+          include: [
+            {
+              relation: 'option'
+            },
+            {
+              relation: 'question'
+            }
+          ]
         }
-
-        async.parallel(_.map(answers, answer => (cb) => {
-          async.parallel([
-            (cb) => Question.find({ where: { id: answer.questionId }, }, cb),
-            (cb) => Option.find({ where: { id: answer.optionId }, }, cb),
-          ], cb)
-        }), (error, results) => {
-          if (error) {
-            return cb(error)
-          }
-
-          cb(null, results)
-        })
-      })
-    }), cb)
+      }]
+    }, cb)
   }
 
-
-
   QuizEntry.scoreboard = cb => {
-    QuizEntry
-      .find({
-        include: [
-          {
-            relation: 'answers',
-            scope: {
-              include: [
-                'option',
-                'question'
-              ]
-            }
-          }
-        ]
-      }, (error, entries) => {
-        if (error) {
-          return cb(error)
-        }
+    getQuizEntries((error, entries) => {
+      if (error) {
+        return cb(error)
+      }
 
-        cb(null, entries)
+      const filtered = filterEntries(entries)
 
-        //getEntryScores(filterEntries(entries), cb)
-      })
+      cb(null, filtered)
+    })
   }
 
   QuizEntry.remoteMethod('scoreboard', {

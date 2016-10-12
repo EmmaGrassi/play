@@ -20,7 +20,12 @@
     "question": {
       "type": "belongsTo",
       "model": "Question",
-      "foreignKey": ""
+      "foreignKey": "questionId"
+    },
+    "answers": {
+      "type": "hasMany",
+      "model": "QuizEntryAnswer",
+      "foreignKey": "optionId"
     }
   },
   "acls": [],

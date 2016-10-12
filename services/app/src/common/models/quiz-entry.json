@@ -44,12 +44,12 @@
     "quiz": {
       "type": "belongsTo",
       "model": "Quiz",
-      "foreignKey": ""
+      "foreignKey": "quizId"
     },
     "answers": {
       "type": "hasMany",
       "model": "QuizEntryAnswer",
-      "foreignKey": ""
+      "foreignKey": "quizEntryId"
     }
   },
   "acls": [],

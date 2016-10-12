@@ -24,12 +24,17 @@
     "quiz": {
       "type": "belongsTo",
       "model": "Quiz",
-      "foreignKey": ""
+      "foreignKey": "quizId"
     },
     "options": {
       "type": "hasMany",
       "model": "Option",
-      "foreignKey": ""
+      "foreignKey": "questionId"
+    },
+    "answers": {
+      "type": "hasMany",
+      "model": "QuizEntryAnswer",
+      "foreignKey": "questionId"
     }
   },
   "acls": [],
