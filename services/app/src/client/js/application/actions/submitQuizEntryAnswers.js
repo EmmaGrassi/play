@@ -1,4 +1,3 @@
-import * as log from 'loglevel'
 import { createAction } from 'redux-actions'
 
 const start   = createAction('QuizEntry:answers:save:start')
@@ -27,7 +26,7 @@ async function postAnswers(id, answers) {
   })
 }
 
-export default (subject) => {
+export default () => {
   return async (dispatch, getState) => {
     dispatch(start())
 

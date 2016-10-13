@@ -1,6 +1,4 @@
 import { createAction } from 'redux-actions'
 
-export default createAction('QuizEntry:start', () => {
-  return {}
-})
+export default createAction('QuizEntry:start')
 

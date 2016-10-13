@@ -1,19 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import _ from 'lodash'
 
-import Spinner from 'halogen/PulseLoader'
-
-import submitQuizEntryAnswers from '../actions/submitQuizEntryAnswers'
-import getScoreboardScores from '../actions/getScoreboardScores'
+import getScoreboardScores from '../actions/getScoreboard'
 
 @connect(
   (state) => {
-    return {}
+    return {
+      scoreBoard: state.app.scoreBoard
+    }
   },
   (dispatch, props) => {
     return {
       getScores: () => {
-        dispatch(submitQuizEntryAnswers())
         dispatch(getScoreboardScores())
       },
     }
@@ -30,11 +29,11 @@ export default class Scoreboard extends React.Component {
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">
-              <strong>Score</strong>
+              <strong>Quiz Ended!</strong>
             </div>
             <div className="card-block">
               <blockquote className="card-blockquote">
-                Thank you for playing the quiz.
+                Thank you for playing the quiz. You can find your score below.
               </blockquote>
             </div>
           </div>
@@ -43,17 +42,52 @@ export default class Scoreboard extends React.Component {
     )
   }
 
-  renderScore() {
+  renderScores(scores) {
+    const keys = _.keys(scores).sort().reverse()
+
+    const rows = _.map(keys, (i, j) => {
+      const v = scores[i]
+
+      return _.map(v, (person, n) => {
+        let number = ''
+
+        if (n === 0) {
+          number = j + 1
+        }
+
+        return (
+          <tr>
+            <td>{number}</td>
+            <td>{person.firstName}</td>
+            <td>{person.lastName}</td>
+            <td>{person.score}</td>
+          </tr>
+        )
+      })
+    })
+
     return (
       <div className="row">
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">
-              <strong>Score</strong>
+              <strong>Scoreboard</strong>
             </div>
             <div className="card-block">
               <blockquote className="card-blockquote">
-                <Spinner color="#FF6600" />
+                <table className="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rows}
+                  </tbody>
+                </table>
               </blockquote>
             </div>
           </div>
@@ -62,12 +96,33 @@ export default class Scoreboard extends React.Component {
     )
   }
 
-  render() {
+  renderFetchedState() {
     return (
       <div>
         {this.renderMessage()}
-        {this.renderScore()}
+        {this.renderScores(scores)}
       </div>
     )
+  }
+
+  renderLoadingState() {
+    return null
+  }
+
+  render() {
+    const {
+      fetching,
+      fetched,
+    } = this.props.scoreBoard
+
+    if (fetched) {
+      return this.renderFetchedState()
+    }
+
+    if (fetching) {
+      return this.renderLoadingState()
+    }
+
+    this.renderLoadingState()
   }
 }

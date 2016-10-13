@@ -1,6 +1,7 @@
 import * as log from 'loglevel'
 import React from 'react'
 import { connect } from 'react-redux'
+import { hashHistory } from 'react-router'
 
 import getQuiz from '../actions/getQuiz'
 import startQuizEntry from '../actions/startQuizEntry'
@@ -8,12 +9,10 @@ import endQuizEntry from '../actions/endQuizEntry'
 import tickQuizEntry from '../actions/tickQuizEntry'
 import answerQuizEntryQuestion from '../actions/answerQuizEntryQuestion'
 import setNewQuizEntryQuestion from '../actions/setNewQuizEntryQuestion'
+import submitQuizEntryAnswers from '../actions/submitQuizEntryAnswers'
 
 import QuizTop from './QuizTop'
 import QuizQuestion from './QuizQuestion'
-import Scoreboard from './Scoreboard'
-
-import Spinner from './Spinner'
 
 @connect(
   (state) => {
@@ -64,14 +63,6 @@ export default class Quiz extends React.Component {
     }
   }
 
-  setTickInterval() {
-    this.tickInterval = setInterval(this.tick.bind(this), this.tickIntervalTime)
-  }
-
-  clearTickInterval() {
-    clearInterval(this.tickInterval)
-  }
-
   componentWillMount() {
     if (!this.props.quizEntry.id) {
       this.props.history.replace('/')
@@ -81,8 +72,24 @@ export default class Quiz extends React.Component {
     this.props.getQuiz(this.props.quizEntry.subject)
   }
 
+  componentWillReceiveProps(props) {
+    // When the last question has been entered or the time runs out, end the test.
+    if (props.quizEntry.ended) {
+      this.end()
+      return
+    }
+  }
+
   componentWillUnmount() {
     this.clearTickInterval()
+  }
+
+  setTickInterval() {
+    this.tickInterval = setInterval(this.tick.bind(this), this.tickIntervalTime)
+  }
+
+  clearTickInterval() {
+    clearInterval(this.tickInterval)
   }
 
   start() {
@@ -92,8 +99,8 @@ export default class Quiz extends React.Component {
   }
 
   end() {
-    this.props.endQuizEntry()
     this.clearTickInterval()
+    this.props.endQuizEntry()
   }
 
   tick() {
@@ -112,57 +119,65 @@ export default class Quiz extends React.Component {
     }
   }
 
-  render() {
+  renderLoadingState() {
+    return null
+  }
+
+  renderInitialState() {
     const {
       quiz,
       quizEntry
     } = this.props
 
-    const wrapper = (x) => <div
-      style={{
-        paddingTop: '30px'
-      }}
-    >
-      {x}
-    </div>
+    return (
+      <div style={{ paddingTop: '30px' }}>
+        <QuizTop
+          quiz={quiz}
+          quizEntry={quizEntry}
+          start={this.start.bind(this)}
+          timeLeft={this.state.timeLeft}
+          totalTime={this.totalTime}
+        />
+      </div>
+    )
+  }
 
-    if (!quiz.id) {
-      return <Spinner color="#ff0000"/>
-    }
+  renderStartedState() {
+    const {
+      quiz,
+      quizEntry
+    } = this.props
 
-    if (quizEntry.ended) {
-      return wrapper(
-        <Scoreboard/>
-      )
-    }
+    return (
+      <div style={{ paddingTop: '30px' }}>
+        <QuizTop
+          quiz={quiz}
+          quizEntry={quizEntry}
+          start={this.start.bind(this)}
+          timeLeft={this.state.timeLeft}
+          totalTime={this.totalTime}
+        />
+        <QuizQuestion
+          quiz={quiz}
+          quizEntry={quizEntry}
+          answerQuizEntryQuestion={this.props.answerQuizEntryQuestion}
+        />
+      </div>
+    )
+  }
+
+  render() {
+    const { quizEntry } = this.props
+
+    // TODO: This ever happens?
+    //if (!quiz.id) {
+    //  return this.renderLoadingState()
+    //}
 
     if (quizEntry.started) {
-      return wrapper(
-        <div>
-          <QuizTop
-            quiz={quiz}
-            quizEntry={quizEntry}
-            start={this.start.bind(this)}
-            timeLeft={this.state.timeLeft}
-            totalTime={this.totalTime}
-          />
-          <QuizQuestion
-            quiz={quiz}
-            quizEntry={quizEntry}
-            answerQuizEntryQuestion={this.props.answerQuizEntryQuestion}
-          />
-        </div>
-      )
+      return this.renderStartedState()
     }
 
-    return wrapper(
-      <QuizTop
-        quiz={quiz}
-        quizEntry={quizEntry}
-        start={this.start.bind(this)}
-        timeLeft={this.state.timeLeft}
-        totalTime={this.totalTime}
-      />
-    )
+    return this.renderInitialState()
   }
 }

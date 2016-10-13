@@ -8,9 +8,10 @@ const TOTAL_TIME = 10000 // 2 * 60 * 1000 // two minutes in milliseconds
 const initialState = I({
   id: null,
   firstName: null,
+  lastName: null,
   email: null,
   github: null,
-
+  subject: null,
   contact: false,
 
   into: {
@@ -21,9 +22,7 @@ const initialState = I({
     scala: null,
   },
 
-  lastName: null,
   startTime: null,
-  subject: null,
 
   started: false,
   ended: false,
@@ -49,11 +48,6 @@ export default (state = initialState, action) => {
     case 'QuizEntry:start':
       return state.merge({
         started: true
-      })
-
-    case 'QuizEntry:end':
-      return state.merge({
-        ended: true
       })
 
     case 'QuizEntry:answerQuizEntryQuestion':
@@ -92,21 +86,10 @@ export default (state = initialState, action) => {
 
       return state
 
-    case 'QuizEntry:tick':
-      let time = state.timeLeft - action.payload.reductionAmount
-
-      let update = {}
-
-      // Make sure the time will never go below 0
-      if (time < 0) {
-        update.timeLeft = 0
-        update.ended = true
-      } else {
-        update.timeLeft = time
-      }
-
-      return state
-        .merge(update)
+    case 'QuizEntry:end':
+      return state.merge({
+        ended: true
+      })
 
     default:
       return state
