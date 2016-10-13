@@ -1,3 +1,13 @@
 import { createAction } from 'redux-actions'
 
-export default createAction('QuizEntry:end')
+const endQuizEntry = createAction('QuizEntry:end')
+
+export default () => {
+  return async (dispatch, getState) => {
+    dispatch(endQuizEntry())
+
+    //dispatch(submitQuizEntryAnswers())
+    //dispatch(hashHistory.push('/scoreboard'))
+  }
+}
+

@@ -29,11 +29,11 @@ import QuizQuestion from './QuizQuestion'
 
       endQuizEntry: () => {
         dispatch(endQuizEntry())
-        //dispatch(submitQuizEntryAnswers())
-        //dispatch(hashHistory.push('/scoreboard'))
       },
 
       answerQuizEntryQuestion: (index) => {
+        // TODO: Dispatch ONE action here. Compose many actions inside.
+
         dispatch(answerQuizEntryQuestion(index))
         dispatch(setNewQuizEntryQuestion())
       },
