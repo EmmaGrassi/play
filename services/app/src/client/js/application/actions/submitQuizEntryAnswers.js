@@ -21,9 +21,10 @@ async function postRequest(url, body) {
 }
 
 async function postAnswers(id, answers) {
-  return await Promise.all(answers.map(async (answer) => {
-    return await postRequest(`/api/QuizEntries/${id}/answers`, answer)
-  }))
+  return await postRequest(`/api/QuizEntries/answers`, {
+    id,
+    answers
+  })
 }
 
 export default (subject) => {

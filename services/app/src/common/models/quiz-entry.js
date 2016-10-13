@@ -35,58 +35,80 @@ module.exports = function(QuizEntry) {
     message: 'Please enter a valid email address',
   })
 
-  function getQuizEntries(cb) {
-    QuizEntry.find({
-      include: [
-        {
-          relation: 'answers',
-          scope: {
-            include: [
-              {
-                relation: 'option',
-                scope: {
-                  fields: [ 'correct' ],
-                  where: {
-                    correct: true
-                  }
-                }
-              },
-            ],
-          },
-        },
-      ]
-    }, cb)
-  }
-
-  QuizEntry.scoreboard = cb => {
-    getQuizEntries((error, entries) => {
+  QuizEntry.answers = (id, answers, cb) => {
+    QuizEntry.getApp((error, app) => {
       if (error) {
         return cb(error)
       }
 
-      console.log(JSON.stringify(entries.map(x => x.toJSON())))
+      const Option = app.models.Option
 
-      /*
-      let filtered = filterEntries(entries)
+      Option.find({
+        where: {
+          correct: true,
+        }
+      }, (error, correctOptions) => {
+        if (error) {
+          return cb(error)
+        }
 
-      filtered = _.map(filtered, entry => {
         let score = 0
 
-        _.each(entry.answers, answer => {
-          console.log('answer', answer)
+        _.each(answers, answer => {
+          const match = _.find(correctOptions, option => {
+            return option.id.toString() === answer.optionId.toString()
+          })
 
-          if (answer.option.correct) {
+          if (match) {
             score++
           }
         })
 
-        entry.score = score
+        QuizEntry.findById(id, (error, quizEntry) => {
+          if (error) {
+            return cb(error)
+          }
 
-        return entry
+          const quizEntryJSON = quizEntry.toJSON()
+
+          quizEntryJSON.score = score
+
+          delete quizEntryJSON.id
+
+          QuizEntry.replaceById(id, quizEntryJSON, (error, doc) => {
+            if (error) {
+              return cb(error)
+            }
+
+            cb(null, doc)
+          })
+        })
       })
+    })
+  }
 
-      const grouped = _.groupBy(filtered, 'score')
-      */
+  QuizEntry.remoteMethod('answers', {
+    accepts: [
+      {
+        arg: 'id',
+        type: 'string'
+      },
+      {
+        arg: 'answers',
+        type: 'array'
+      },
+    ]
+  })
+
+  QuizEntry.scoreboard = cb => {
+    QuizEntry.find({}, (error, entries) => {
+      if (error) {
+        return cb(error)
+      }
+
+      entries = filterEntries(entries)
+
+      entries = _.groupBy(entries, 'score')
 
       cb(null, entries)
     })

@@ -37,6 +37,9 @@
     },
     "endTime": {
       "type": "date"
+    },
+    "score": {
+      "type": "number"
     }
   },
   "validations": [],
