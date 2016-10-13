@@ -30,6 +30,8 @@ import QuizQuestion from './QuizQuestion'
 
       endQuizEntry: () => {
         dispatch(endQuizEntry())
+        dispatch(submitQuizEntryAnswers())
+        dispatch(hashHistory.push('/scoreboard'))
       },
 
       answerQuizEntryQuestion: (index) => {
