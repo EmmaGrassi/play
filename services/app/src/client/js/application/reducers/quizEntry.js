@@ -22,15 +22,26 @@ const initialState = I({
     scala: null,
   },
 
+  // The time the quiz was started
   startTime: null,
 
+  // Wether the quiz has started.
   started: false,
+
+  // Wether all questions have been answered
+  completed: false,
+
+  // Wether the quiz has ended.
   ended: false,
 
+  // TODO: Obsolete?
   answers: [],
 
-  unansweredQuestions: [],
+  // The current question
   currentQuestion: null,
+
+  // A list of questions yet to be answered.
+  unansweredQuestions: [],
 })
 
 export default (state = initialState, action) => {
@@ -74,7 +85,7 @@ export default (state = initialState, action) => {
       // Stop the quiz.
       if (!unansweredQuestions.length) {
         return state
-          .set('ended', true)
+          .set('completed', true)
       }
 
       const newQuestion = unansweredQuestions[Math.floor(Math.random() * unansweredQuestions.length)]

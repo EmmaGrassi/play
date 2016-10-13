@@ -6,7 +6,6 @@ import { hashHistory } from 'react-router'
 import getQuiz from '../actions/getQuiz'
 import startQuizEntry from '../actions/startQuizEntry'
 import endQuizEntry from '../actions/endQuizEntry'
-import tickQuizEntry from '../actions/tickQuizEntry'
 import answerQuizEntryQuestion from '../actions/answerQuizEntryQuestion'
 import setNewQuizEntryQuestion from '../actions/setNewQuizEntryQuestion'
 import submitQuizEntryAnswers from '../actions/submitQuizEntryAnswers'
@@ -30,8 +29,8 @@ import QuizQuestion from './QuizQuestion'
 
       endQuizEntry: () => {
         dispatch(endQuizEntry())
-        dispatch(submitQuizEntryAnswers())
-        dispatch(hashHistory.push('/scoreboard'))
+        //dispatch(submitQuizEntryAnswers())
+        //dispatch(hashHistory.push('/scoreboard'))
       },
 
       answerQuizEntryQuestion: (index) => {
@@ -75,8 +74,7 @@ export default class Quiz extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    // When the last question has been entered or the time runs out, end the test.
-    if (props.quizEntry.ended) {
+    if (props.quizEntry.completed && !props.quizEntry.ended) {
       this.end()
       return
     }
@@ -170,11 +168,6 @@ export default class Quiz extends React.Component {
 
   render() {
     const { quizEntry } = this.props
-
-    // TODO: This ever happens?
-    //if (!quiz.id) {
-    //  return this.renderLoadingState()
-    //}
 
     if (quizEntry.started) {
       return this.renderStartedState()
