@@ -1,13 +1,15 @@
 import { createAction } from 'redux-actions'
+import { hashHistory } from 'react-router'
+
+import submitQuizEntryAnswers from './submitQuizEntryAnswers'
 
 const endQuizEntry = createAction('QuizEntry:end')
 
 export default () => {
   return async (dispatch, getState) => {
     dispatch(endQuizEntry())
-
-    //dispatch(submitQuizEntryAnswers())
-    //dispatch(hashHistory.push('/scoreboard'))
+    await dispatch(submitQuizEntryAnswers())
+    dispatch(hashHistory.push('/scoreboard'))
   }
 }
 
