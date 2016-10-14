@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default class QuizTimer extends React.Component {
+export default class Timer extends React.Component {
   render() {
     const { timeLeft, totalTime } = this.props
 

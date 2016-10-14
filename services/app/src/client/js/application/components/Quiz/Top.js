@@ -1,8 +1,8 @@
 import React from 'react'
 
-import QuizTimer from './QuizTimer'
+import Timer from './Timer'
 
-export default class QuizTop extends React.Component {
+export default class Top extends React.Component {
   renderInitial() {
     return (
       <div className="row">
@@ -46,7 +46,7 @@ export default class QuizTop extends React.Component {
             </div>
             <div className="card-block">
               <blockquote className="card-blockquote">
-                <QuizTimer
+                <Timer
                   timeLeft={timeLeft}
                   totalTime={totalTime}
                 />

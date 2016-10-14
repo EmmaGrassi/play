@@ -4,7 +4,7 @@ import { Route, IndexRoute } from 'react-router'
 
 import App from './components/App'
 import PersonForm from './components/PersonForm'
-import Quiz from './components/Quiz'
+import Quiz from './components/Quiz/Quiz'
 import Scoreboard from './components/Scoreboard'
 
 export default () => {

@@ -3,15 +3,15 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { hashHistory } from 'react-router'
 
-import getQuiz from '../actions/getQuiz'
-import startQuizEntry from '../actions/startQuizEntry'
-import endQuizEntry from '../actions/endQuizEntry'
-import answerQuizEntryQuestion from '../actions/answerQuizEntryQuestion'
-import setNewQuizEntryQuestion from '../actions/setNewQuizEntryQuestion'
-import submitQuizEntryAnswers from '../actions/submitQuizEntryAnswers'
+import getQuiz from '../../actions/getQuiz'
+import startQuizEntry from '../../actions/startQuizEntry'
+import endQuizEntry from '../../actions/endQuizEntry'
+import answerQuizEntryQuestion from '../../actions/answerQuizEntryQuestion'
+import setNewQuizEntryQuestion from '../../actions/setNewQuizEntryQuestion'
+import submitQuizEntryAnswers from '../../actions/submitQuizEntryAnswers'
 
-import QuizTop from './QuizTop'
-import QuizQuestion from './QuizQuestion'
+import Top from './Top'
+import Question from './Question'
 
 @connect(
   (state) => {
@@ -131,7 +131,7 @@ export default class Quiz extends React.Component {
 
     return (
       <div style={{ paddingTop: '30px' }}>
-        <QuizTop
+        <Top
           quiz={quiz}
           quizEntry={quizEntry}
           start={this.start.bind(this)}
@@ -150,14 +150,14 @@ export default class Quiz extends React.Component {
 
     return (
       <div style={{ paddingTop: '30px' }}>
-        <QuizTop
+        <Top
           quiz={quiz}
           quizEntry={quizEntry}
           start={this.start.bind(this)}
           timeLeft={this.state.timeLeft}
           totalTime={this.totalTime}
         />
-        <QuizQuestion
+        <Question
           quiz={quiz}
           quizEntry={quizEntry}
           answerQuizEntryQuestion={this.props.answerQuizEntryQuestion}

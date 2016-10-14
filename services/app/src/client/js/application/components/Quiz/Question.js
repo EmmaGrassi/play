@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default class QuizQuestion extends React.Component {
+export default class Question extends React.Component {
   renderTitle() {
     const { title } = this.props.quizEntry.currentQuestion
 
@@ -18,7 +18,14 @@ export default class QuizQuestion extends React.Component {
           return (
             <div className="form-check">
               <label className="form-check-label">
-                <input className="form-check-input" type="radio" name="answer" onClick={this.props.answerQuizEntryQuestion.bind(this, i)} />
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="answer"
+                  checked={false}
+                  defaultChecked={false}
+                  onClick={this.props.answerQuizEntryQuestion.bind(this, i)}
+                />
                 {value}
               </label>
             </div>

@@ -97,8 +97,10 @@ export default class Scoreboard extends React.Component {
   }
 
   renderFetchedState() {
+    const { scores } = this.props.scoreBoard
+
     return (
-      <div>
+      <div style={{ paddingTop: '30px' }}>
         {this.renderMessage()}
         {this.renderScores(scores)}
       </div>
@@ -123,6 +125,6 @@ export default class Scoreboard extends React.Component {
       return this.renderLoadingState()
     }
 
-    this.renderLoadingState()
+    return this.renderLoadingState()
   }
 }
