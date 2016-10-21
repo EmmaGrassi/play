@@ -8,8 +8,10 @@ const endQuizEntry = createAction('QuizEntry:end')
 export default () => {
   return async (dispatch, getState) => {
     dispatch(endQuizEntry())
+
     await dispatch(submitQuizEntryAnswers())
-    dispatch(hashHistory.push('/scoreboard'))
+
+    hashHistory.push('/scoreboard')
   }
 }
 

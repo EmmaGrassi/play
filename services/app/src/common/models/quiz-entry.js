@@ -101,6 +101,8 @@ module.exports = function(QuizEntry) {
         return cb(error)
       }
 
+      // TODO: Just return everything for now.
+      /*
       entries = _.map(entries, x => {
         return {
           firstName: x.firstName,
@@ -108,6 +110,7 @@ module.exports = function(QuizEntry) {
           score: x.score,
         }
       })
+      */
 
       entries = _.groupBy(entries, 'score')
 

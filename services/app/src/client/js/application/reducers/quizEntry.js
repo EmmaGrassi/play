@@ -54,7 +54,7 @@ export default (state = initialState, action) => {
         })
 
     case 'QuizEntry:set':
-      return state.merge(action.payload)
+      return initialState.merge(action.payload)
 
     case 'QuizEntry:start':
       return state.merge({

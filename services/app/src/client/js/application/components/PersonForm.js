@@ -2,6 +2,7 @@ import * as log from 'loglevel'
 import React from 'react'
 import _ from 'lodash'
 import { Field, SubmissisonError, reduxForm } from 'redux-form'
+import { connect } from 'react-redux'
 import { hashHistory } from 'react-router'
 
 import Header from './Header'
@@ -88,6 +89,18 @@ let FIXME_STATE
     hashHistory.push(`/quiz/${FIXME_STATE}`)
   }
 })
+@connect(
+  (state) => {
+    return {}
+  },
+  (dispatch, props) => {
+    return {
+      redirectToScoreboard: () => {
+        hashHistory.push(`/scoreboard`)
+      },
+    }
+  }
+)
 export default class PersonForm extends React.Component {
   componentWillMount() {
     log.debug('PersonForm#componentWillMount')
@@ -410,6 +423,25 @@ export default class PersonForm extends React.Component {
     )
   }
 
+
+  renderScoreboardLink() {
+    return (
+      <div
+        className="row"
+        style={{
+          marginTop: '20px'
+        }}
+      >
+        <div className="col-md-12">
+          <center>
+            <small>Or take a look at the scoreboard</small><br />
+            <button type="button" className="btn btn-primary" onClick={this.props.redirectToScoreboard}>Scoreboard</button>
+          </center>
+        </div>
+      </div>
+    )
+  }
+
   render() {
     log.debug('PersonForm#render')
 
@@ -427,6 +459,7 @@ export default class PersonForm extends React.Component {
           {this.renderTermsOfService()}
           {this.renderServerError(error)}
           {this.renderQuizStart()}
+          {this.renderScoreboardLink()}
         </form>
       </div>
     )
