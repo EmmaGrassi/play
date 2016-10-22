@@ -9,16 +9,6 @@ import webpackConfig from '../../webpack.config'
 gulp.task('webpack:compile', cb => {
   const config = Object.assign({}, webpackConfig)
 
-  config.plugins = config.plugins.concat(
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: 'production'
-      }
-    }),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin()
-  )
-
   webpack(config, (e, stats) => {
     if (e) {
       throw new gulpUtil.PluginError('webpack:compile', e)

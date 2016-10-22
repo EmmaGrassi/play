@@ -48,6 +48,4 @@ if (process.env.NODE_ENV === 'develop') {
   //options.plugins.push(webpack.HotModuleReplacementPlugin())
 }
 
-console.log('webpack options', options)
-
 module.exports = options;

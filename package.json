@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "server/server.js",
   "scripts": {
-    "start": "./node_modules/.bin/gulp develop"
+    "develop": "./node_modules/.bin/gulp develop",
+    "production": "./node_modules/.bin/gulp production",
+    "start": "./node_modules/.bin/gulp production"
   },
   "engines": {
     "node": "6"

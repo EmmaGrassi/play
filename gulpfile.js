@@ -14,10 +14,8 @@ require('./gulp/tasks/mocha')
 require('./gulp/tasks/server')
 require('./gulp/tasks/webpack')
 
-gulp.task('develop', function(cb) {
+gulp.task('compile', function(cb) {
   seq(
-    'clean',
-
     [
       'babel:compile',
       'copy:compile',
@@ -25,14 +23,32 @@ gulp.task('develop', function(cb) {
       'less:compile',
     ],
 
-    'mocha:istanbul',
+    cb
+  )
+})
 
+gulp.task('watch', function(cb) {
+  seq(
     [
       'babel:watch',
       'copy:watch',
       'images:watch',
       'less:watch',
       'mocha:watch',
+    ],
+
+    cb
+  )
+})
+
+gulp.task('develop', function(cb) {
+  seq(
+    'clean',
+    'compile',
+    'mocha:istanbul',
+
+    [
+      'watch',
       'server:run',
       'webpack:dev-server',
     ],
@@ -44,20 +60,16 @@ gulp.task('develop', function(cb) {
 gulp.task('production', function(cb) {
   seq(
     'clean',
-
-    [
-      'babel:compile',
-      'copy:compile',
-      'images:compile',
-      'less:compile',
-    ],
-
+    'compile',
     'webpack:compile',
+    'server:run',
 
+    /*
     [
       'html:minify',
       'javascript:minify',
     ],
+    */
 
     cb
   )
