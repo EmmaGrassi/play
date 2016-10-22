@@ -32,7 +32,7 @@ export function configureStore(appReducers) {
         collapsed: true
       }),
     ),
-    window.devToolsExtension && window.devToolsExtension()
+    window.devToolsExtension ? window.devToolsExtension() : f => f
   )
 
   //log.debug('store.configureStore:middleware', middleware)
