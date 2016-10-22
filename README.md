@@ -4,6 +4,41 @@
 
 Technology quiz app!
 
+## System Requirements
+
+Before you will be able to run `docker-compose` **on a Mac**(Good luck on Windows) You'll need to install the following tools:
+
+- [VirtualBox](https://www.virtualbox.org/)
+- [Homebrew](http://brew.sh/)
+- `docker-compose`
+- `docker-machine`
+
+### VirtualBox
+
+To install VirtualBox head over to [their website](https://www.virtualbox.org/) and download the installable and execute it.
+
+### Homebrew 
+
+Homebrew is a package manager for Mac. You are going to need this to install `docker-machine` and `docker-compose`.
+
+To install Homebrew run the following line in a terminal:
+```
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+
+### `docker-compose` && `docker-machine`
+
+Now that you have Homebrew you are ready to install `docker-compose` and while we are at it we will add `docker-machine` as well.
+```
+brew install docker-compose && brew install  docker-machine
+```
+Now it is time to build a default machine for `docker-machine` to use.
+```
+docker-machine create --driver virtualbox default
+```
+And you are done, you should be ready to proceed with running the application.
+
+
 ## Installation
 The play project consists of two elements, the Node.js Application
 Server and the MongoDB Database.
