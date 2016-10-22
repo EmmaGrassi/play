@@ -12,7 +12,7 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
 #ADD node_modules /tmp
 #ADD package.json /tmp
 #WORKDIR /tmp
-#RUN npm install
+RUN npm install
 #RUN rm /tmp/package.json
 #RUN mv /tmp/node_modules /service
 
