@@ -1,9 +1,11 @@
 {
   "mongodb": {
-    "host": "0.0.0.0",
-    "port": 27017,
-    "database": "test-loopback",
     "name": "mongodb",
-    "connector": "mongodb"
+    "connector": "mongodb",
+    "host": "ds061246.mlab.com",
+    "port": 61246,
+    "username": "SytacPlay",
+    "password": "KeyboardKat",
+    "database": "sytac-play-mongodb"
   }
 }
